@@ -1,3 +1,5 @@
+<img width="1500" height="500" alt="EVENTFLOW GITTT" src="https://github.com/user-attachments/assets/184cae65-9946-498c-bc8d-36e975db0193" />
+
 
 # EVENTFLOW
 
@@ -294,3 +296,4 @@ If EventFlow helps you:
 
 **Built with ❤️ for the open-source & student community**
 *EventFlow – Powering events, the open-source way.*
+
