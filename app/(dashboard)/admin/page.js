@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { 
   LayoutDashboard, 
   Users, 
@@ -59,6 +60,7 @@ const navItems = [
 ];
 
 export default function AdminDashboard() {
+  const router = useRouter();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [user, setUser] = useState(null);
@@ -69,6 +71,12 @@ export default function AdminDashboard() {
       setUser(JSON.parse(userData));
     }
   }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    router.push("/login");
+  };
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -154,7 +162,11 @@ export default function AdminDashboard() {
                   <span className="text-xs text-slate-500">Administrator</span>
                 </div>
               </div>
-              <button className="p-2 text-slate-400 hover:text-red-400 hover:bg-white/5 rounded-lg transition ml-2">
+              <button 
+                onClick={handleLogout}
+                className="p-2 text-slate-400 hover:text-red-400 hover:bg-white/5 rounded-lg transition ml-2"
+                title="Logout"
+              >
                 <LogOut className="w-5 h-5" />
               </button>
             </div>
