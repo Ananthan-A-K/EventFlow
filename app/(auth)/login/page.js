@@ -22,9 +22,11 @@ export default function LoginPage() {
             });
 
             const data = await res.json();
+            console.log("Login response:", res.status, data);
 
             if (res.ok) {
                 const role = data.user?.role || "participant";
+                console.log("Redirecting to:", role);
                 window.location.href = `/${role}`;
             } else {
                 setError(data.error || "Invalid credentials");
