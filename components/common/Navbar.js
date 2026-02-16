@@ -48,6 +48,14 @@ export default function Navbar() {
             >
               Browse Events
             </Link>
+                <Link
+    href="/verify"
+    className="text-slate-400 hover:text-neon-cyan transition font-medium text-sm tracking-wide uppercase"
+  >
+    Verify Certificate
+  </Link>
+
+                
           </div>
 
           {/* Desktop Auth Buttons */}
@@ -152,3 +160,4 @@ export default function Navbar() {
     </nav>
   );
 }
+
