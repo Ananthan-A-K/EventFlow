@@ -24,7 +24,8 @@ import {
   MoreHorizontal,
   LogOut,
   Menu,
-  X
+  X,
+  UserCircle
 } from "lucide-react";
 import Aurora from "@/components/common/Aurora";
 
@@ -145,9 +146,13 @@ export default function AdminDashboard() {
                 <span className="absolute top-1 right-1 w-2 h-2 bg-neon-cyan rounded-full"></span>
               </button>
               <div className="hidden md:flex items-center gap-3 ml-3 pl-3 border-l border-white/10">
-                <div className="w-8 h-8 bg-gradient-to-br from-neon-cyan to-neon-violet rounded-full flex items-center justify-center">
-                  <Shield className="w-4 h-4 text-white" />
-                </div>
+                <Link
+                  href="/profile"
+                  className="w-8 h-8 bg-gradient-to-br from-neon-cyan to-neon-violet rounded-full flex items-center justify-center cursor-pointer hover:opacity-80 transition"
+                  title="View Profile"
+                >
+                  <UserCircle className="w-4 h-4 text-white" />
+                </Link>
                 <div className="flex flex-col">
                   <span className="text-sm font-medium text-white">{user?.name || "Admin"}</span>
                   <span className="text-xs text-slate-500">Administrator</span>
@@ -188,14 +193,14 @@ export default function AdminDashboard() {
               >
                 <div className="flex items-start justify-between mb-4">
                   <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${stat.color === 'cyan' ? 'bg-neon-cyan/10 border border-neon-cyan/20' :
-                      stat.color === 'violet' ? 'bg-neon-violet/10 border border-neon-violet/20' :
-                        stat.color === 'green' ? 'bg-green-500/10 border border-green-500/20' :
-                          'bg-neon-pink/10 border border-neon-pink/20'
+                    stat.color === 'violet' ? 'bg-neon-violet/10 border border-neon-violet/20' :
+                      stat.color === 'green' ? 'bg-green-500/10 border border-green-500/20' :
+                        'bg-neon-pink/10 border border-neon-pink/20'
                     }`}>
                     <stat.icon className={`w-5 h-5 ${stat.color === 'cyan' ? 'text-neon-cyan' :
-                        stat.color === 'violet' ? 'text-neon-violet' :
-                          stat.color === 'green' ? 'text-green-400' :
-                            'text-neon-pink'
+                      stat.color === 'violet' ? 'text-neon-violet' :
+                        stat.color === 'green' ? 'text-green-400' :
+                          'text-neon-pink'
                       }`} />
                   </div>
                   <span className="flex items-center gap-1 text-xs font-medium text-green-400">
@@ -363,8 +368,8 @@ export default function AdminDashboard() {
                   href={item.href}
                   onClick={() => setIsMobileMenuOpen(false)}
                   className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors ${item.active
-                      ? 'bg-neon-cyan/10 text-neon-cyan border border-neon-cyan/20'
-                      : 'text-slate-400 hover:text-white hover:bg-white/5'
+                    ? 'bg-neon-cyan/10 text-neon-cyan border border-neon-cyan/20'
+                    : 'text-slate-400 hover:text-white hover:bg-white/5'
                     }`}
                 >
                   <item.icon className="w-5 h-5" />
