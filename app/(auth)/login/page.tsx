@@ -51,6 +51,7 @@ export default function LoginPage() {
           amplitude={1}
           blend={0.6}
           speed={0.8}
+          time={0}
         />
       </div>
 

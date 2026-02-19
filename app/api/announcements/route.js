@@ -34,8 +34,8 @@ export async function POST(req) {
 
     const session = await auth();
 
-    if (!session)
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    if (!session || (session.user.role !== "admin" && session.user.role !== "organizer"))
+      return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
 
     const body = await req.json();
 
@@ -57,6 +57,11 @@ export async function POST(req) {
 export async function DELETE(req) {
   try {
     await connectDB();
+
+    const session = await auth();
+
+    if (!session || (session.user.role !== "admin" && session.user.role !== "organizer"))
+        return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
 
     const { id } = await req.json();
 

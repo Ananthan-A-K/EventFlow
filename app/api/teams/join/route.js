@@ -2,25 +2,29 @@ import { NextResponse } from "next/server";
 import dbConnect from "@/lib/db-connect";
 import Team from "@/models/Team";
 import User from "@/models/User";
+import { auth } from "@/auth";
 
 // JOIN a team using invite code
 export async function POST(request) {
   try {
     await dbConnect();
+    const session = await auth();
+
+    if (!session || !session.user) {
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 401 }
+      );
+    }
+
     const body = await request.json();
-    const { inviteCode, userId } = body;
+    const { inviteCode } = body;
+    const userId = session.user.id;
     
     // Validate required fields
     if (!inviteCode || !inviteCode.trim()) {
       return NextResponse.json(
         { error: "Invite code is required" },
-        { status: 400 }
-      );
-    }
-    
-    if (!userId) {
-      return NextResponse.json(
-        { error: "User ID is required" },
         { status: 400 }
       );
     }

@@ -3,30 +3,14 @@ import dbConnect from "@/lib/db-connect";
 import Team from "@/models/Team";
 import User from "@/models/User";
 import Event from "@/models/Event";
+import { auth } from "@/auth";
 
 // GET all teams
 export async function GET(request) {
   try {
     await dbConnect();
-    const { searchParams } = new URL(request.url);
-    let userId = searchParams.get('userId');
-    
-    // If no userId in query params, try to get from cookie
-    if (!userId) {
-      const cookieHeader = request.headers.get("cookie");
-      if (cookieHeader) {
-        const tokenMatch = cookieHeader.match(/token=([^;]+)/);
-        if (tokenMatch) {
-          try {
-            const token = tokenMatch[1];
-            const payload = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
-            userId = payload.userId;
-          } catch (e) {
-            console.error('Error decoding token:', e);
-          }
-        }
-      }
-    }
+    const session = await auth();
+    let userId = session?.user?.id;
     
     let query = {};
     if (userId) {
@@ -56,8 +40,18 @@ export async function GET(request) {
 export async function POST(request) {
   try {
     await dbConnect();
+    const session = await auth();
+    
+    if (!session || !session.user) {
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 401 }
+      );
+    }
+
     const body = await request.json();
-    const { name, eventId, leaderId, inviteCode, description, maxMembers } = body;
+    const { name, eventId, inviteCode, description, maxMembers } = body;
+    const leaderId = session.user.id;
     
     // Validate required fields
     if (!name || !name.trim()) {

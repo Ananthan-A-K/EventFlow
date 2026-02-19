@@ -3,14 +3,24 @@ import connectDB from "@/lib/db-connect";
 import Submission from "@/models/Submission";
 import Event from "@/models/Event";
 import Team from "@/models/Team";
+import { auth } from "@/auth";
 
 export async function POST(req) {
     try {
         await connectDB();
+        const session = await auth();
+
+        if (!session || !session.user) {
+            return NextResponse.json(
+                { error: "Unauthorized" },
+                { status: 401 }
+            );
+        }
 
         // Parse the request body
         const body = await req.json();
         const { event, team, title, description, repoLink, demoLink } = body;
+        const userId = session.user.id;
 
         // Validate required fields
         if (!event || !team || !title || !description || !repoLink) {
@@ -30,6 +40,14 @@ export async function POST(req) {
         const teamExists = await Team.findById(team);
         if (!teamExists) {
             return NextResponse.json({ error: "Invalid team ID" }, { status: 404 });
+        }
+
+        // Check if user is a member of the team
+        if (teamExists.leader.toString() !== userId && !teamExists.members.some(m => m.toString() === userId)) {
+            return NextResponse.json(
+                { error: "You are not a member of this team" },
+                { status: 403 }
+            );
         }
 
         // Check for duplicate submission (One per team per event)
@@ -64,6 +82,7 @@ export async function POST(req) {
         );
     }
 }
+
 
 export async function GET(req) {
     try {
