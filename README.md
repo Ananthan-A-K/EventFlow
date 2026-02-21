@@ -46,7 +46,7 @@ Most tech events rely on:
 
 This results in confusion, inconsistent evaluation, and a poor participant experience.
 
-**EventFlow solves this with a reusable, modular event engine.**
+EventFlow addresses these challenges by providing a reusable, modular event infrastructure engine.
 
 ---
 
@@ -190,6 +190,7 @@ See `LICENSE` for details.
 
 ⭐ Star the repo if you like it  
 🤝 Contributions are welcome  
+
 
 
 
